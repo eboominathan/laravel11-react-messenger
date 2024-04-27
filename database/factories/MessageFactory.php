@@ -19,18 +19,17 @@ class MessageFactory extends Factory
         $senderId = $this->faker->randomElement([0, 1]);
         if ($senderId === 0) {
             $senderId = $this->faker
-                ->randomElement(\App\Models\User::where('sender_id', '!=', 1)
-                    ->pluck(10)
+                ->randomElement(\App\Models\User::pluck('id')
                     ->toArray());
             $receiverId = 1;
         } else {
             $receiverId = $this->faker
-                ->randomElement(\App\Models\User::pluck(10)
+                ->randomElement(\App\Models\User::pluck('id')
                     ->toArray());
         }
         $groupId = null;
         if ($this->faker->boolean(50)) {
-            $groupId = $this->faker->randomElement(\App\Models\Group::pluck(10)
+            $groupId = $this->faker->randomElement(\App\Models\Group::pluck('id')
                 ->toArray());
             // select group by group id        
             $group = \App\Models\Group::find($groupId);

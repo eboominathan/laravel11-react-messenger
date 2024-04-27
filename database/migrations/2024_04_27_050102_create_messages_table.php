@@ -19,6 +19,9 @@ return new class extends Migration
                 ->constrained('users');
             $table->foreignId('group_id')->nullable()
                 ->constrained('groups');
+            $table->foreignId('conversation_id')->nullable()
+                ->constrained('conversations');
+                $table->timestamps();
         });
 
         Schema::table('groups', function (Blueprint $table) {
