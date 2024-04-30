@@ -1,5 +1,5 @@
 import { usePage } from "@inertiajs/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 const ChatLayout = ({ children }) => {
     const page = usePage();
     const conversations = page.props.conversations;

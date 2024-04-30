@@ -53,16 +53,16 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Group::class, 'group_users', 'user_id', 'group_id');
     }
-    public function getUsersExceptUser(User $exceptUser)
+    public static function getUsersExceptUser(User $user)
     {
-        $userId = $exceptUser->id;
+        $userId = $user->id;
         $query = User::select(['users.*', 'messages.message as last_message', 'messages.created_at as last_message_date'])
             ->where('users.id', '!=', $userId)
-            ->when(!$exceptUser->is_admin, function ($query) {
+            ->when(!$user->is_admin, function ($query) {
                 $query->whereNull('users.blocked_at');
             })
             ->leftJoin('conversations', function ($join) use ($userId) {
-                $join->on('conversations.user_id1', '=', 'user.id')
+                $join->on('conversations.user_id1', '=', 'users.id')
                     ->where('conversations.user_id2', '=', $userId)
                     ->orWhere(function ($query) use ($userId) {
                         $query->on('conversations.user_id2', '=', 'users.id')
@@ -70,7 +70,7 @@ class User extends Authenticatable
                     });
             })
             ->leftJoin('messages', 'messages.id', '=', 'conversations.last_message_id')
-            ->orderByRaw('IFNULL(users.blocked_at),1')
+            ->orderByRaw('IFNULL(users.blocked_at,1)')
             ->orderBy('messages.created_at', 'desc')
             ->orderBy('users.name');
 
