@@ -1,3 +1,4 @@
+import TextInput from "@/Components/TextInput";
 import { usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 const ChatLayout = ({ children }) => {
@@ -6,12 +7,24 @@ const ChatLayout = ({ children }) => {
     const selectedConversations = page.props.selectedConversations;
     const [localConversations, setLocalConversations] = useState([]);
     const [sortedConversations, setSortedConversations] = useState([]);
-
     const [onlineUsers, setOnlineUsers] = useState({});
+
     const isUserOnline = (userId) => onlineUsers[userId];
 
     console.log(conversations, "conversations");
     console.log(selectedConversations, "selectedConversations");
+
+    const onSearch = (ev) => {
+        const search = ev.target.value.toLowercase();
+        setLocalConversations(
+            conversations.filter((conversation) => {
+                return (
+                    conversation.name.toLowercase().includes(search) ||
+                    conversation.email.toLowercase().includes(search)
+                );
+            })
+        );
+    };
     useEffect(() => {
         setSortedConversations(
             localConversations.sort((a, b) => {
@@ -75,8 +88,53 @@ const ChatLayout = ({ children }) => {
 
     return (
         <>
-            ChatLayout
-            <div>{children}</div>
+            <div className="flex flex-1 w-full overflow-hidden">
+                <div
+                    className={`w-full transition-all sm:w-[220px] md:w-[300px] bg-slate-800
+                flex flex-col overflow-hidden ${
+                    selectedConversations ? "-ml-[100%] sm:ml-0" : ""
+                }`}
+                >
+                    <div className="flex items-center justify-between py-2 py-3 text-xl font-medium">
+                        My Conversations
+                        <div
+                            className="tooltip tooltip-left"
+                            data-tip="Create New Group"
+                        >
+                            <button className="text-gray-400 hover:text-gray-200">
+                                <PencilSqaureIcon className="inline-block w-4 h-4 ml-2" />
+                            </button>
+                        </div>
+                    </div>
+                    <div className="p-3">
+                        <TextInput
+                            onKeyup={onSearch}
+                            placeholder="Filter users and groups"
+                            className="w-full "
+                        />
+                    </div>
+                    <div className="flex overflow-auto">
+                        {sortedConversations &&
+                            sortedConversations.map((conversation) => (
+                                <ConversationItem
+                                    key={`${
+                                        conversation.is_group
+                                            ? "group_"
+                                            : "user_"
+                                    }${conversation.id}`}
+                                    conversation={conversation}
+                                    online={!!isUserOnline(conversation.id)}
+                                    selectedConversations={
+                                        selectedConversations
+                                    }
+                                />
+                            ))}
+                    </div>
+                </div>
+                <div className="flex flex-col flex-1 w-full overflow-hidden">
+                    {children}
+                </div>
+            </div>
         </>
     );
 };
