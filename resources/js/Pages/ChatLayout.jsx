@@ -1,4 +1,6 @@
+import ConversationItem from "@/Components/App/ConversationItem";
 import TextInput from "@/Components/TextInput";
+import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { usePage } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 const ChatLayout = ({ children }) => {
@@ -11,17 +13,14 @@ const ChatLayout = ({ children }) => {
 
     const isUserOnline = (userId) => onlineUsers[userId];
 
-    console.log(conversations, "conversations");
-    console.log(selectedConversations, "selectedConversations");
+    // console.log(conversations, "conversations");
+    // console.log(selectedConversations, "selectedConversations");
 
     const onSearch = (ev) => {
         const search = ev.target.value.toLowercase();
         setLocalConversations(
             conversations.filter((conversation) => {
-                return (
-                    conversation.name.toLowercase().includes(search) ||
-                    conversation.email.toLowercase().includes(search)
-                );
+                return conversation.name.toLowercase().includes(search);
             })
         );
     };
@@ -88,32 +87,32 @@ const ChatLayout = ({ children }) => {
 
     return (
         <>
-            <div className="flex flex-1 w-full overflow-hidden">
+            <div className="flex-1 w-full overflow-hidden">
                 <div
                     className={`w-full transition-all sm:w-[220px] md:w-[300px] bg-slate-800
                 flex flex-col overflow-hidden ${
                     selectedConversations ? "-ml-[100%] sm:ml-0" : ""
                 }`}
                 >
-                    <div className="flex items-center justify-between py-2 py-3 text-xl font-medium">
+                    <div className="flex items-center justify-between px-3 py-2 text-xl font-medium">
                         My Conversations
                         <div
                             className="tooltip tooltip-left"
                             data-tip="Create New Group"
                         >
                             <button className="text-gray-400 hover:text-gray-200">
-                                <PencilSqaureIcon className="inline-block w-4 h-4 ml-2" />
+                                <PencilSquareIcon className="inline-block w-4 h-4 ml-2" />
                             </button>
                         </div>
                     </div>
                     <div className="p-3">
                         <TextInput
-                            onKeyup={onSearch}
+                            onKeyUp={onSearch}
                             placeholder="Filter users and groups"
-                            className="w-full "
+                            className="w-full"
                         />
                     </div>
-                    <div className="flex overflow-auto">
+                    <div className="overflow-auto flex1">
                         {sortedConversations &&
                             sortedConversations.map((conversation) => (
                                 <ConversationItem

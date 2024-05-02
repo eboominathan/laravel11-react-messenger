@@ -1,8 +1,18 @@
-import React from 'react'
 
-function GroupAvatar() {
+import { UserIcon} from "@heroicons/react/24/solid";
+
+ const  GroupAvatar = ({}) => {
   return (
-    <div>GroupAvatar</div>
+    <>
+      <div className={`avatar.placeholder`}>
+          <div className={`bg-gray-400 text-gray-800 rounded-full w-8`}>
+            <span className="text-xl">
+              <UserIcon className="w-4"/>
+            </span>
+          </div>
+
+        </div> 
+    </>
   )
 }
 
