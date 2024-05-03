@@ -1,30 +1,28 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link, usePage } from '@inertiajs/react';
 
-export default function Authenticated({  header, children }) {
+export default function Authenticated({ header, children }) {
     const page = usePage();
     const user = page.props.auth.user;
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
-    useEffect(() =>{
+    useEffect(() => {
         console.log('Authenticated mounted');
-    },[])
+    }, []);
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div className="flex flex-col h-screen min-h-screen bg-gray-100  dark:bg-gray-900">
             <nav className="bg-white border-b border-gray-100 dark:bg-gray-800 dark:border-gray-700">
                 <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
-                        <div className="flex">
-                            <div className="flex items-center shrink-0">
-                                <Link href="/">
-                                    <ApplicationLogo className="block w-auto text-gray-800 fill-current h-9 dark:text-gray-200" />
-                                </Link>
-                            </div>
+                        <div className="flex items-center">
+                            <Link href="/">
+                                <ApplicationLogo className="block w-auto text-gray-800 fill-current h-9 dark:text-gray-200" />
+                            </Link>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
@@ -61,8 +59,8 @@ export default function Authenticated({  header, children }) {
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
-                                        <Dropdown.Link href={route('logout')} method="post" as="button">
+                                        <Dropdown.Link key="profile" href={route('profile.edit')}>Profile</Dropdown.Link>
+                                        <Dropdown.Link key="logout" href={route('logout')} method="post" as="button">
                                             Log Out
                                         </Dropdown.Link>
                                     </Dropdown.Content>
@@ -72,7 +70,7 @@ export default function Authenticated({  header, children }) {
 
                         <div className="flex items-center -me-2 sm:hidden">
                             <button
-                                onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
+                                onClick={() => setShowingNavigationDropdown(prev => !prev)}
                                 className="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400"
                             >
                                 <svg className="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
@@ -96,7 +94,7 @@ export default function Authenticated({  header, children }) {
                     </div>
                 </div>
 
-                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
+                <div className={`${showingNavigationDropdown ? 'block' : 'hidden'} sm:hidden`}>
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                             Dashboard
@@ -125,7 +123,7 @@ export default function Authenticated({  header, children }) {
                 </header>
             )}
 
-            <main>{children}</main>
+            {children} 
         </div>
     );
 }

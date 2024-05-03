@@ -1,8 +1,8 @@
- 
 import { Fragment } from "react";
 import axios from "axios";
 import {
     EllipsisVerticalIcon,
+    LockClosedIcon,
     LockOpenIcon,
     ShieldCheckIcon,
     UserIcon,
@@ -10,6 +10,7 @@ import {
 import { Menu, Transition } from "@headlessui/react";
 
 export default function UserOptionsDropDown({ conversation }) {
+ 
     const changeUserRole = () => {
         console.log("change user role");
         if (!conversation.is_user) {
@@ -28,21 +29,21 @@ export default function UserOptionsDropDown({ conversation }) {
     };
 
     const onBlockUser = () => {
-      console.log("change user role");
-      if (!conversation.is_user) {
-          return;
-      }
+        console.log("change user role");
+        if (!conversation.is_user) {
+            return;
+        }
 
-      // send axios post request to change user role and show notification on success
-      axios
-          .post(route("user.changeRole", conversation.id))
-          .then((res) => {
-              console.log(res.data);
-          })
-          .catch((err) => {
-              console.error(err);
-          });
-  };
+        // send axios post request to change user role and show notification on success
+        axios
+            .post(route("user.changeRole", conversation.id))
+            .then((res) => {
+                console.log(res.data);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    };
 
     return (
         <div>
@@ -73,13 +74,13 @@ export default function UserOptionsDropDown({ conversation }) {
                                                 : "text-gray-100"
                                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                     >
-                                        {conversations.blocked_at && (
+                                        {conversation.blocked_at && (
                                             <>
                                                 <LockOpenIcon className="w-4 h-4 mr-2 " />
                                                 UnBlock user
                                             </>
                                         )}
-                                        {!conversations.blocked_at && (
+                                        {!conversation.blocked_at && (
                                             <>
                                                 <LockClosedIcon className="w-4 h-4 mr-2 " />
                                                 Block user
@@ -100,13 +101,13 @@ export default function UserOptionsDropDown({ conversation }) {
                                                 : "text-gray-100"
                                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                     >
-                                        {conversations.is_admin && (
+                                        {conversation.is_admin && (
                                             <>
                                                 <UserIcon className="w-4 h-4 mr-2 " />
                                                 Make Regular user
                                             </>
                                         )}
-                                        {!conversations.is_admin && (
+                                        {!conversation.is_admin && (
                                             <>
                                                 <ShieldCheckIcon className="w-4 h-4 mr-2 " />
                                                 Make Admin

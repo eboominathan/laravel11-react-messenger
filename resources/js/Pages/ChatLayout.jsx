@@ -13,8 +13,8 @@ const ChatLayout = ({ children }) => {
 
     const isUserOnline = (userId) => onlineUsers[userId];
 
-    // console.log(conversations, "conversations");
-    // console.log(selectedConversations, "selectedConversations");
+    console.log(conversations, "conversations");
+    console.log(selectedConversations, "selectedConversations");
 
     const onSearch = (ev) => {
         const search = ev.target.value.toLowercase();
@@ -94,7 +94,7 @@ const ChatLayout = ({ children }) => {
                     selectedConversations ? "-ml-[100%] sm:ml-0" : ""
                 }`}
                 >
-                    <div className="flex items-center justify-between px-3 py-2 text-xl font-medium">
+                    <div className="flex items-center justify-between px-3 py-2 text-xl font-medium text-gray-200">
                         My Conversations
                         <div
                             className="tooltip tooltip-left"
@@ -112,20 +112,16 @@ const ChatLayout = ({ children }) => {
                             className="w-full"
                         />
                     </div>
-                    <div className="overflow-auto flex1">
+                    <div className="overflow-auto flex1 ">
                         {sortedConversations &&
-                            sortedConversations.map((conversation) => (
+                            sortedConversations.map((conversation, index) => (
                                 <ConversationItem
                                     key={`${
-                                        conversation.is_group
-                                            ? "group_"
-                                            : "user_"
-                                    }${conversation.id}`}
+                                        conversation.is_group ? "group_" : "user_"
+                                    }${conversation.id}_${index}`} // Appending index for uniqueness
                                     conversation={conversation}
                                     online={!!isUserOnline(conversation.id)}
-                                    selectedConversations={
-                                        selectedConversations
-                                    }
+                                    selectedConversations={selectedConversations}
                                 />
                             ))}
                     </div>
