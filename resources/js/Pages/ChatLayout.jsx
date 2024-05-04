@@ -13,8 +13,8 @@ const ChatLayout = ({ children }) => {
 
     const isUserOnline = (userId) => onlineUsers[userId];
 
-    console.log(conversations, "conversations");
-    console.log(selectedConversations, "selectedConversations");
+    // console.log(conversations, "conversations");
+    // console.log(selectedConversations, "selectedConversations");
 
     const onSearch = (ev) => {
         const search = ev.target.value.toLowercase();
