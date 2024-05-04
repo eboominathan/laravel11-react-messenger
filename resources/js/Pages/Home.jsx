@@ -2,17 +2,20 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
  import ChatLayout from './ChatLayout';
 import { useEffect, useRef, useState } from 'react';
 import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/solid';
-import { ConversationHeader } from '@/Components/App/ConversationHeader'; 
-import { MessageItem } from '@/Components/App/MessageItem';
+import ConversationHeader from '@/Components/App/ConversationHeader';
+import MessageItem from '@/Components/App/MessageItem';
+ 
 
-function Home({ messages }) {
+function Home({ selectedConversation =null, messages = null }) {
+    console.log('messages',messages);
     const [localMessages,setLocalMessages] =  useState([]);
     const messagesCtrRef =  useRef(null);
 
 
     useEffect(() => {
-        setLocalMessages(messages);
+        setLocalMessages(messages ? messages.data.reverse():[]); 
     },[messages])
+    
     return <>
         {!messages && (
             <div className="flex flex-col items-center justify-center h-full gap-8 text-center opacity-35">
