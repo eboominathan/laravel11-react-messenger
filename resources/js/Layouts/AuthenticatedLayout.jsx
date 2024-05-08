@@ -15,11 +15,12 @@ export default function Authenticated({ header, children }) {
     }, []);
 
     return (
-        <div className="flex flex-col h-screen min-h-screen bg-gray-100  dark:bg-gray-900">
+        <div className="flex flex-col h-screen min-h-screen bg-gray-100 dark:bg-gray-900">
             <nav className="bg-white border-b border-gray-100 dark:bg-gray-800 dark:border-gray-700">
                 <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
-                        <div className="flex items-center">
+                        <div className="flex">
+                        <div className="flex items-center shrink-0">
                             <Link href="/">
                                 <ApplicationLogo className="block w-auto text-gray-800 fill-current h-9 dark:text-gray-200" />
                             </Link>
@@ -91,6 +92,7 @@ export default function Authenticated({ header, children }) {
                                 </svg>
                             </button>
                         </div>
+                    </div>
                     </div>
                 </div>
 
